@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Generatore di Siti AI</title>
+    <style>
+        body {
+            font-family: Poppins, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        textarea, select, button {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        iframe {
+            border: 1px solid #ccc;
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Generatore di Siti AI</h1>
+
+    <form id="generateForm">
+        <!-- Prompt sito -->
+        <label for="prompt">Descrivi il sito che vuoi creare:</label>
+        <textarea id="prompt" name="prompt" rows="4" placeholder="Es. Genera un TDEE calculator che mostri i macronutrienti..."></textarea>
+
+        <!-- Prompt immagini -->
+        <label for="image_prompt">Descrivi le immagini che vuoi (opzionale):</label>
+        <textarea id="image_prompt" name="image_prompt" rows="3" placeholder="Es. Foto di un nutrizionista, grafico macronutrienti..."></textarea>
+
+        <!-- Tema -->
+        <label for="theme">Tema:</label>
+        <select id="theme" name="theme">
+            <option value="chiaro">Chiaro</option>
+            <option value="scuro">Scuro</option>
+            <option value="colorato">Colorato</option>
+        </select>
+
+        <!-- Genera -->
+        <button type="submit">Genera Sito</button>
+    </form>
+
+    <h2>Anteprima</h2>
+    <iframe id="previewFrame" width="100%" height="600px"></iframe>
+
+    <script>
+        document.getElementById("generateForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const prompt = document.getElementById("prompt").value;
+            const image_prompt = document.getElementById("image_prompt").value;
+            const theme = document.getElementById("theme").value;
+
+            const response = await fetch("/generate", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({prompt, image_prompt, theme})
+            });
+
+            const data = await response.json();
+            document.getElementById("previewFrame").srcdoc = data.html;
+        });
+    </script>
+
+</body>
+</html>
