@@ -19,7 +19,7 @@ STABILITY_API_KEY = os.getenv("STABILITY_API_KEY")
 STABILITY_URL = "https://api.stability.ai/v2beta/stable-image/generate/core"
 
 # Directory per salvare immagini
-STATIC_IMG_DIR = os.path.join(app.static_folder, "images")
+STATIC_IMG_DIR = os.path.join("/tmp", "images")
 os.makedirs(STATIC_IMG_DIR, exist_ok=True)
 
 sites = {}
